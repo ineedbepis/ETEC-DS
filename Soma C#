@@ -1,36 +1,93 @@
-Console.WriteLine("Boa noite!");
-Console.WriteLine("Conhecendo a linguagem c#");
-int a, b, r;
-string resp="";
-Console.ForegroundColor = ConsoleColor.Blue;
-Console.BackgroundColor = ConsoleColor.Cyan;
+// See https://aka.ms/new-console-template for more information
+using System.Diagnostics;
+using static System.Console;//fixa a classe Console na memória
+int opc = 0;
 do
 {
+    Clear();
+    SetCursorPosition(0, 0);
+    Write(new string('=', 80));
+    SetCursorPosition(25, 1);
+    Write("*** M e n u   P r i n c i p a l ***");
+    SetCursorPosition(0, 2);
+    Write(new string('=', 80));
+   
+    //1) Mostra lista de opções
 
-    //entradas
-    Console.Clear();
-    Console.SetCursorPosition(25, 0);
-    Console.Write("Informe o 1 número: ");
-    a = int.Parse(Console.ReadLine());
-    Console.SetCursorPosition(25, 2);
+SetCursorPosition(25, 4);
+Write("[1] Cálculos");
+SetCursorPosition(25, 5);
+Write("[2] Joguinho Advinha Número");
+SetCursorPosition(25, 6);
+Write("[3] Tabuada");
+SetCursorPosition(25, 7);
+Write("[4] Média Aritmética");
+SetCursorPosition(25, 8);
+Write("[5] Fim");
+SetCursorPosition(0, 9);
+Write(new string('=', 80));
+SetCursorPosition(0, 10);
+Write(new string('=', 80));
+SetCursorPosition(25, 11);
+//2) Receber a escolha do usuário
+Write("Digite sua opção: ");
+opc = Convert.ToInt16(ReadLine());
 
-    Console.Write("Informe o 2 número: ");
-    b = Convert.ToInt32(Console.ReadLine());
-    //processamento
-    r = a + b;
-    //Saidas
-    Console.SetCursorPosition(25, 5);
+//3) Decidir oque fazer
+switch (opc)
+{
+    case 1:
+        Calculos();
+        break;
+    case 2:
+        //Advinha();
+        break;
+    case 3:
+        break;
+    case 4:
+        break;
+    case 5:
+        break;
+    default:
+        SetCursorPosition(25, 20);
+        Write("[ *** Opção Inválida *** ]");
+        Thread.Sleep(2000);
+        break;
+}
+} while (opc != 5);
 
-    Console.WriteLine($"{a} + {b} = {r}");
-
-    Console.SetCursorPosition(25, 20);
-    Console.Write("Deseja continuar? (Sim/Não)");
-    resp = Console.ReadLine();
-} while (resp.ToLower() == "sim");
-
-Console.SetCursorPosition(25, 20);
-Console.WriteLine("Ok, Até a proxima!");
 
 
 
-    Console.ReadKey();//pausa para ler uma tecla
+Calculos();
+static void Calculos()
+{
+    int a, b, r;
+    string resp = "";
+    ForegroundColor = ConsoleColor.Blue;
+    BackgroundColor = ConsoleColor.Cyan;
+    do
+    {
+
+        //entradas
+        Clear();
+        SetCursorPosition(25, 0);
+        Write("Informe o 1 número: ");
+        a = Convert.ToInt32(ReadLine());
+        SetCursorPosition(25, 2);
+
+        Write("Informe o 2 número: ");
+        b = Convert.ToInt32(ReadLine());
+        //processamento
+        r = a + b;
+        //Saidas
+        SetCursorPosition(25, 5);
+
+        WriteLine($"{a} + {b} = {r}");
+
+        SetCursorPosition(25, 20);
+        Write("Deseja continuar? (Sim/Não)");
+        resp = ReadLine()!;
+    } while (resp.ToLower() == "sim");
+
+}
