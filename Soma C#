@@ -1,0 +1,36 @@
+Console.WriteLine("Boa noite!");
+Console.WriteLine("Conhecendo a linguagem c#");
+int a, b, r;
+string resp="";
+Console.ForegroundColor = ConsoleColor.Blue;
+Console.BackgroundColor = ConsoleColor.Cyan;
+do
+{
+
+    //entradas
+    Console.Clear();
+    Console.SetCursorPosition(25, 0);
+    Console.Write("Informe o 1 número: ");
+    a = int.Parse(Console.ReadLine());
+    Console.SetCursorPosition(25, 2);
+
+    Console.Write("Informe o 2 número: ");
+    b = Convert.ToInt32(Console.ReadLine());
+    //processamento
+    r = a + b;
+    //Saidas
+    Console.SetCursorPosition(25, 5);
+
+    Console.WriteLine($"{a} + {b} = {r}");
+
+    Console.SetCursorPosition(25, 20);
+    Console.Write("Deseja continuar? (Sim/Não)");
+    resp = Console.ReadLine();
+} while (resp.ToLower() == "sim");
+
+Console.SetCursorPosition(25, 20);
+Console.WriteLine("Ok, Até a proxima!");
+
+
+
+    Console.ReadKey();//pausa para ler uma tecla
