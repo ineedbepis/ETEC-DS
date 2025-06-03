@@ -1,0 +1,79 @@
+using System.ComponentModel.Design;
+using System.Data;
+using static System.Console;
+
+string[] unidade = {"zero","um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze", "quatorze", "quinze", "desesseis", "dezesete", "dezoito", "dezenove"};
+string[] dezena = {"", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"};//até noventa
+string[] centena = { "", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos" };//até novecentos
+string extenso = "";
+string input;
+int n ;
+int ne = 0;
+int nc = 0;
+int nd = 0;
+
+do
+{
+    Clear();
+    Write("Informe um número (0-1000): ");
+    n = int.Parse(Console.ReadLine());
+    if (n < 0 || n > 1000)
+    {
+        WriteLine("*** Número fora da faixa ***");
+    }
+    else if (n < 20)
+    {
+        extenso = unidade[n];
+    }
+    else if (n < 100) //20-99
+    {
+        ne = n / 10;
+        nd = n % 10;
+        extenso = dezena[ne];
+        if (nd > 0)
+        {
+            extenso += " e " + unidade[nd];
+        }
+
+    }
+
+    else if (n == 100)
+    {
+        extenso = "cem";
+    }
+    else if (n < 1000)//101 - 999
+    {
+        nc = n / 100;
+        int resto = n % 100;
+        extenso = centena[nc];
+
+        if (resto > 0)
+        {
+            if (resto < 20)
+            {
+                extenso += " e " + unidade[resto];
+            }
+            else
+            {
+                ne = resto / 10;
+                nd = resto % 10;
+                extenso += " e " + dezena[ne];
+                if (nd > 0)
+                {
+                    extenso += " e " + unidade[nd];
+                }
+            }
+        }
+    }
+    else if (n == 1000)
+    {
+        extenso = "mil";
+    }
+    Thread.Sleep(5000);
+    Clear();
+    WriteLine($"\n {extenso}");
+    WriteLine("Deseja continuar? Sim/Nao");
+    input = Console.ReadLine();
+    
+    
+} while (input.ToLower() != "nao");
