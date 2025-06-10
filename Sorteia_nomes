@@ -1,0 +1,46 @@
+using System;
+using static System.Console;//fixa a classe Console na memória
+int n, ns;
+string resp;
+Random genarum = new Random();
+
+do
+{
+    Clear();
+    Write("Quantos nome para o sorteio? ");
+    n = int.Parse(ReadLine()!);
+
+    string[] nome = new string[n];
+    string[] sorteado = new string[n];
+
+    //carregando o vetor com os nomes fornecidos
+    for (int i = 0; i < nome.Length; i++)
+    {
+        Write($"Informe o {i + 1}° nome: ");
+        nome[i] = ReadLine()!;
+    }
+    //sorteando os nomes
+    for (int i = 0; i < nome.Length; i++)
+    {
+        ns = genarum.Next(0, nome.Length - i); // Garante que não escolha um nome já sorteado
+        sorteado[i] = nome[ns];
+        // Move o nome sorteado para o final do array para não ser escolhido novamente
+        nome[ns] = nome[nome.Length - 1 - i];
+
+
+
+    }
+    //Listando os nomes sorteados
+    Write("\n\n==================================================\n\n");
+    for (int i = 0; i < nome.Length; i++)
+    {
+        WriteLine($"{i + 1}° sorteado: {sorteado[i]}");
+        Thread.Sleep(800);
+    }
+    Write("Deseja continuar? Sim/Não");
+
+    Write("\n\n==================================================\n\n");
+
+
+    resp = ReadLine()!;
+} while (resp.ToLower() == "sim");
