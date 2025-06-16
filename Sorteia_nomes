@@ -20,15 +20,14 @@ do
         nome[i] = ReadLine()!;
     }
     //sorteando os nomes
-    for (int i = 0; i < nome.Length; i++)
-    {
-        ns = genarum.Next(0, nome.Length - i); // Garante que não escolha um nome já sorteado
-        sorteado[i] = nome[ns];
-        // Move o nome sorteado para o final do array para não ser escolhido novamente
-        nome[ns] = nome[nome.Length - 1 - i];
-
-
-
+     for (int i = 0; i < nome.Length; i++)
+ {
+     do
+     {
+         ns = genarum.Next(0, nome.Length);
+        } while (nome[ns] == "null");
+     sorteado[i] = nome[ns];
+     nome[ns] = "null";
     }
     //Listando os nomes sorteados
     Write("\n\n==================================================\n\n");
