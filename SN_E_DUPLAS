@@ -1,0 +1,75 @@
+using System;
+using static System.Console;//fixa a classe Console na memória
+int n, ns;
+string resp;
+Random genarum = new Random();
+string[,] dupla = new string[5, 2];
+
+do
+{
+    Clear();
+    Write("Quantos nome para o sorteio? ");
+    n = int.Parse(ReadLine()!);
+
+    string[] nome = new string[n];
+    string[] sorteado = new string[n];
+    string[] div1 = new string[n];
+    string[] div2 = new string[n];
+
+    //carregando o vetor com os nomes fornecidos
+    for (int i = 0; i < nome.Length; i++)
+    {
+        Write($"Informe o {i + 1}° nome: ");
+        nome[i] = ReadLine()!;
+    }
+    //sorteando os nomes
+    for (int i = 0; i < nome.Length; i++)
+    {
+        do
+        {
+        ns = genarum.Next(0, nome.Length);
+        }while (nome[ns] == "null");
+
+        sorteado[i] = nome[ns];
+        nome[ns] = "null";
+    }
+
+    for(int i = 0; i<5 ; i++)
+    {
+        div1[i] = sorteado[i];
+    }
+
+    for (int f = 5; f < 10; f++)
+    {
+        div2[f-5] = sorteado[f];
+    }
+
+    for(int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            dupla[j,1] = div2[j];
+        }
+        dupla[i,0] = div1[i];
+    }
+
+    //Listando os nomes sorteados
+    Write("\n\n==================================================\n\n");
+    for (int i = 0; i < nome.Length; i++)
+    {
+        WriteLine($"{i + 1}° sorteado: {sorteado[i]}");
+        Thread.Sleep(10);
+    }
+
+    for(int i = 0; i<5; i++)
+    {
+        Write($"Dupla {i + 1} : {dupla[i,0]} e {dupla[i,1]}\n ");
+    }
+  
+    Write("Deseja continuar? Sim/Não");
+
+    Write("\n\n==================================================\n\n");
+
+
+    resp = ReadLine()!;
+} while (resp.ToLower() == "sim");
