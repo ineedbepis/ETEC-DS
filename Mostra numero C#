@@ -2,12 +2,12 @@ using System.ComponentModel.Design;
 using System.Data;
 using static System.Console;
 
-string[] unidade = {"zero","um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze", "quatorze", "quinze", "desesseis", "dezesete", "dezoito", "dezenove"};
-string[] dezena = {"", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"};//até noventa
+string[] unidade = { "zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze", "quatorze", "quinze", "desesseis", "dezesete", "dezoito", "dezenove" };
+string[] dezena = { "", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa" };//até noventa
 string[] centena = { "", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos" };//até novecentos
 string extenso = "";
 string input;
-int n ;
+int n;
 int ne = 0;
 int nc = 0;
 int nd = 0;
@@ -69,11 +69,13 @@ do
     {
         extenso = "mil";
     }
-    Thread.Sleep(5000);
     Clear();
-    WriteLine($"\n {extenso}");
+    Thread.Sleep(500);
+    SetCursorPosition(0, 0);
+    WriteLine($"\n{extenso}");
+    Thread.Sleep(500);
     WriteLine("Deseja continuar? Sim/Nao");
     input = Console.ReadLine();
-    
-    
+
+
 } while (input.ToLower() != "nao");
