@@ -1,0 +1,119 @@
+using System;
+using static System.Console;
+
+class Program
+{
+    static void Main()
+    {
+        int impar, par, maior, menor, posm, posn, soma, media, esc;
+        string ver, opc, opcf;
+        par = 0;
+        impar = 0;
+        maior = int.MinValue;
+        menor = int.MaxValue; 
+        posm = 0;
+        posn = -1; // Inicializa com -1 para indicar que ainda não foi encontrado
+        soma = 0;
+        esc = 0;
+
+        int[] numbers = new int[10]; 
+        do
+        {
+            Clear();
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine($"Escreva o {i + 1}º número!");
+                string input = ReadLine()!;
+                if (int.TryParse(input, out int number))
+                {
+                    numbers[i] = number; 
+                    soma += number; 
+
+                    if (number % 2 == 0)
+                    {
+                        par++;
+                    }
+
+                    else
+                    {
+                        impar++;
+                    }
+
+                    if (number > maior)
+                    {
+                        maior = number;
+                        posm = i;
+                    }
+
+                    if (number < menor)
+                    {
+                        menor = number; // Atualiza o menor número
+                        posn = i; // Atualiza a posição do menor número
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Entrada inválida. Por favor, insira um número inteiro.");
+                    i--; // Decrementa i para repetir a entrada
+                }
+            }
+            for (int j = 0; j < numbers.Length - 1; j++)
+            {
+                for (int k = 0; k < numbers.Length - 1 - j; k++)
+                {
+                    if (numbers[k] > numbers[k + 1])
+                    {
+                        int temp = numbers[k];
+                        numbers[k] = numbers[k + 1];
+                        numbers[k + 1] = temp;
+                    }
+                }
+            }
+
+            media = soma / 10;
+            Clear();
+            WriteLine(new string('=', 40));
+            WriteLine($"Você digitou {par} números pares!");
+            WriteLine($"Você digitou {impar} números ímpares!");
+            WriteLine($"O maior número foi {maior}, na posição {posm + 1}");
+            WriteLine($"O menor número foi {menor}, na posição {posn + 1}");
+            WriteLine($"A soma de todos os números foi {soma}");
+            WriteLine($"A média aritmética é {media}");
+            WriteLine("Deseja ver os números em ordem? Sim/Não");
+            ver = ReadLine()!;
+            if (ver.ToLower() == "sim")
+            {
+                do
+                {
+                    Clear();
+                    WriteLine("1 - Ordem crescente");
+                    WriteLine("2 - Ordem decrescente");
+                    WriteLine("Digite sua opção");
+                    esc = Convert.ToInt32(ReadLine()!);
+                    if (esc == 1)
+                    {
+                        for (int i = 0; i < numbers.Length; i++)
+                        {
+                            Write($"{numbers[i]} ");
+                        }
+                    }
+                    else if (esc == 2)
+                    {
+                        for (int i = numbers.Length - 1; i >= 0; i--)
+                        {
+                            Write($"{numbers[i]} ");
+                        }
+                    }
+                    else
+                    {
+                        Write("Número inválido!");
+                    }
+                    WriteLine("\nDeseja ver novamente? Sim/Não");
+                    opc = ReadLine()!;
+                } while (opc.ToLower() == "sim");
+            }
+            WriteLine("Deseja fazer novamente? Sim/Não");
+            opcf = ReadLine()!;
+        } while (opcf.ToLower() == "sim");
+    }
+}
