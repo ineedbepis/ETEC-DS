@@ -1,0 +1,18 @@
+using static System.Console;
+string[] mes = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+string[] dia = ["Um", "Dois", "Três", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove", "Dez", "Onze", "Doze", "Treze", "Catorze", "Quinze", "Dezesseis", "Dezessete", "Dezoito", "Dezenove", "Vinte", "Vinte e um", "Vinte e dois", "Vinte e três", "Vinte e quatro", "Vinte e cinco","Vinte e seis","Vinte e sete","Vinte e oito","Vinte e nove","Trinta","Trinta e um"];
+string opc;
+int di, ms;
+
+do
+{
+    Clear();
+    WriteLine("Insira o dia");
+    di = Convert.ToInt16(ReadLine());
+    WriteLine("Insira o mês");
+    ms = Convert.ToInt16(ReadLine());
+    Clear();
+    WriteLine($"A data é dia {dia[di-1]} de {mes[ms-1]}");
+    WriteLine("Deseja fazer novamente? Sim/Não");
+    opc = ReadLine()!;
+} while (opc.ToLower() == "sim");
