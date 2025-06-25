@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Random random = new Random();
+        int numeroSecreto = 0;
+        int tentativasRestantes = 0;
+        List<int> tentativas = new List<int>();
+
+        Console.WriteLine("Escolha o nível de dificuldade:");
+        Console.WriteLine("1 - Fácil (1 a 10, chances ilimitadas)");
+        Console.WriteLine("2 - Médio (1 a 50, 15 chances)");
+        Console.WriteLine("3 - Difícil (1 a 100, 10 chances)");
+        int nivel = int.Parse(Console.ReadLine());
+
+        switch (nivel)
+        {
+            case 1:
+                numeroSecreto = random.Next(1, 11); // Números de 1 a 10
+                break;
+            case 2:
+                numeroSecreto = random.Next(1, 51); // Números de 1 a 50
+                tentativasRestantes = 15;
+                break;
+            case 3:
+                numeroSecreto = random.Next(1, 101); // Números de 1 a 100
+                tentativasRestantes = 10;
+                break;
+            default:
+                Console.WriteLine("Nível inválido.");
+                return;
+        }
+
+        int tentativasFeitas = 0;
+        bool acertou = false;
+
+        while (!acertou)
+        {
+            if (nivel != 1 && tentativasRestantes == 0)
+            {
+                Console.WriteLine("Você não tem mais tentativas. O número era: " + numeroSecreto);
+                break;
+            }
+
+            Console.WriteLine("Digite seu palpite:");
+            int palpite = int.Parse(Console.ReadLine());
+            tentativas.Add(palpite);
+            tentativasFeitas++;
+
+            if (palpite == numeroSecreto)
+            {
+                Console.WriteLine($"Parabéns! Você acertou o número {numeroSecreto} em {tentativasFeitas} tentativas.");
+                acertou = true;
+            }
+            else if (palpite < numeroSecreto)
+            {
+                Console.WriteLine("O número é maior que o seu palpite.");
+            }
+            else
+            {
+                Console.WriteLine("O número é menor que o seu palpite.");
+            }
+
+            if (nivel != 1)
+            {
+                tentativasRestantes--;
+                Console.WriteLine($"Tentativas restantes: {tentativasRestantes}");
+            }
+        }
+
+        if (tentativasFeitas > 0)
+        {
+            Console.WriteLine("Tentativas feitas: " + string.Join(", ", tentativas));
+        }
+    }
+}
