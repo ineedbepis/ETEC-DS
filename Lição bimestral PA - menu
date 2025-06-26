@@ -82,6 +82,13 @@ switch (opc)
         SorteiaNomes();
         break;
 
+    case 7:
+        Clear();
+        WriteLine("Saindo do programa...");
+        Thread.Sleep(1000);
+        Environment.Exit(0);
+        break;
+
     default:
         WriteLine("Opção inválida! Por favor, escolha uma opção válida.");
         break;
