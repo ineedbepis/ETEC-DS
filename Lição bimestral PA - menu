@@ -1,0 +1,509 @@
+using System;
+using System.Drawing;
+using static System.Console;
+
+// Configurações iniciais
+BackgroundColor = ConsoleColor.DarkBlue;
+ForegroundColor = ConsoleColor.White;
+Clear();
+
+int opc;
+int larguraJanela = 50;
+int alturaJanela = 15;
+
+do
+{
+Clear();
+    // Calcula posição central
+int posEsquerda = (WindowWidth - larguraJanela) / 2;
+int posTopo = (WindowHeight - alturaJanela) / 2;
+
+// Desenha borda superior
+SetCursorPosition(posEsquerda, posTopo);
+Write("╔" + new string('═', larguraJanela - 2) + "╗");
+
+// Desenha laterais
+for (int linha = 1; linha < alturaJanela - 1; linha++)
+{
+    SetCursorPosition(posEsquerda, posTopo + linha);
+    Write("║" + new string(' ', larguraJanela - 2) + "║");
+}
+
+// Desenha borda inferior
+SetCursorPosition(posEsquerda, posTopo + alturaJanela - 1);
+Write("╚" + new string('═', larguraJanela - 2) + "╝");
+
+// Título centralizado
+string titulo = "Menu Principal";
+SetCursorPosition(posEsquerda + (larguraJanela - titulo.Length) / 2, posTopo + 1);
+Write(titulo);
+
+// Opções do menu (centralizadas)
+string[] opcoes = {
+    "[1] Analiza números",
+    "[2] Consulta dia mês",
+    "[3] Consulta estados",
+    "[4] Extenso 0 a 1000",
+    "[5] Jogo do sorteio" ,
+    "[6] Sorteia nomes" ,
+    "[7] Sair" ,
+};
+
+
+for (int i = 0; i < opcoes.Length; i++)
+{
+    SetCursorPosition(posEsquerda + (larguraJanela - opcoes[i].Length) / 2, posTopo + 3 + i);
+    Write(opcoes[i]);
+}
+
+string prompt = "Digite sua opção: ";
+SetCursorPosition(posEsquerda + (larguraJanela - prompt.Length - 2) / 2, posTopo + 9);
+Write(prompt);
+opc = Convert.ToInt32(ReadLine());
+
+switch (opc)
+{
+    case 1:
+        Analisa();
+        break;
+    case 2:
+        ConsultaDiaMes();
+        break;
+    case 3:
+        ConsultaEstados();
+        break;
+    case 4:
+        Extenso();
+        break;
+    case 5:
+        Jogo();
+        break;
+    case 6:
+        SorteiaNomes();
+        break;
+
+    default:
+        WriteLine("Opção inválida! Por favor, escolha uma opção válida.");
+        break;
+    }
+
+} while (opc != 7);
+
+Analisa();
+static void Analisa()
+{
+    int impar, par, maior, menor, posm, posn, soma, media, esc;
+    string ver, opc, opcf;
+    par = 0;
+    impar = 0;
+    maior = int.MinValue;
+    menor = int.MaxValue;
+    posm = 0;
+    posn = -1; // Inicializa com -1 para indicar que ainda não foi encontrado
+    soma = 0;
+    esc = 0;
+
+    int[] numbers = new int[10];
+    do
+    {
+        Clear();
+        for (int i = 0; i < 10; i++)
+        {
+            Console.WriteLine($"Escreva o {i + 1}º número!");
+            string input = ReadLine()!;
+            if (int.TryParse(input, out int number))
+            {
+                numbers[i] = number;
+                soma += number;
+
+                if (number % 2 == 0)
+                {
+                    par++;
+                }
+
+                else
+                {
+                    impar++;
+                }
+
+                if (number > maior)
+                {
+                    maior = number;
+                    posm = i;
+                }
+
+                if (number < menor)
+                {
+                    menor = number; // Atualiza o menor número
+                    posn = i; // Atualiza a posição do menor número
+                }
+            }
+            else
+            {
+                Console.WriteLine("Entrada inválida. Por favor, insira um número inteiro.");
+                i--; // Decrementa i para repetir a entrada
+            }
+        }
+        for (int j = 0; j < numbers.Length - 1; j++)
+        {
+            for (int k = 0; k < numbers.Length - 1 - j; k++)
+            {
+                if (numbers[k] > numbers[k + 1])
+                {
+                    int temp = numbers[k];
+                    numbers[k] = numbers[k + 1];
+                    numbers[k + 1] = temp;
+                }
+            }
+        }
+
+        media = soma / 10;
+        Clear();
+        WriteLine(new string('=', 40));
+        WriteLine($"Você digitou {par} números pares!");
+        WriteLine($"Você digitou {impar} números ímpares!");
+        WriteLine($"O maior número foi {maior}, na posição {posm + 1}");
+        WriteLine($"O menor número foi {menor}, na posição {posn + 1}");
+        WriteLine($"A soma de todos os números foi {soma}");
+        WriteLine($"A média aritmética é {media}");
+        WriteLine("Deseja ver os números em ordem? Sim/Não");
+        ver = ReadLine()!;
+        if (ver.ToLower() == "sim")
+        {
+            do
+            {
+                Clear();
+                WriteLine("1 - Ordem crescente");
+                WriteLine("2 - Ordem decrescente");
+                WriteLine("Digite sua opção");
+                esc = Convert.ToInt32(ReadLine()!);
+                if (esc == 1)
+                {
+                    for (int i = 0; i < numbers.Length; i++)
+                    {
+                        Write($"{numbers[i]} ");
+                    }
+                }
+                else if (esc == 2)
+                {
+                    for (int i = numbers.Length - 1; i >= 0; i--)
+                    {
+                        Write($"{numbers[i]} ");
+                    }
+                }
+                else
+                {
+                    Write("Número inválido!");
+                }
+                WriteLine("\nDeseja ver novamente? Sim/Não");
+                opc = ReadLine()!;
+            } while (opc.ToLower() == "sim");
+        }
+        WriteLine("Deseja fazer novamente? Sim/Não");
+        opcf = ReadLine()!;
+    } while (opcf.ToLower() == "sim");
+}
+
+ConsultaDiaMes();
+static void ConsultaDiaMes()
+{
+    string[] mes = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    string[] dia = ["Um", "Dois", "Três", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove", "Dez", "Onze", "Doze", "Treze", "Catorze", "Quinze", "Dezesseis", "Dezessete", "Dezoito", "Dezenove", "Vinte", "Vinte e um", "Vinte e dois", "Vinte e três", "Vinte e quatro", "Vinte e cinco", "Vinte e seis", "Vinte e sete", "Vinte e oito", "Vinte e nove", "Trinta", "Trinta e um"];
+    string op;
+    int di, ms;
+
+    do
+    {
+        Clear();
+        WriteLine("Insira o dia");
+        di = Convert.ToInt16(ReadLine());
+        WriteLine("Insira o mês");
+        ms = Convert.ToInt16(ReadLine());
+        Clear();
+        WriteLine($"A data é dia {dia[di - 1]} de {mes[ms - 1]}");
+        WriteLine("Deseja fazer novamente? Sim/Não");
+        op = ReadLine()!;
+
+    }while (op.ToLower() == "sim");
+}
+
+ConsultaEstados();
+static void ConsultaEstados()
+{
+   
+    string opc, op1, op2, estado;
+
+    string[] estadosBrasileiros = { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" };
+    string[] estadosBrasileirosNomes = { "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins" };
+    do
+    {
+        Clear();
+        WriteLine("Bem-vindo ao programa de consulta de estados brasileiros!");
+        WriteLine("1)- Consultar estado por sigla");
+        WriteLine("2)- Consultar sigla por estado");
+        opc = Console.ReadLine();
+        if (opc == "1")
+        {
+            WriteLine("Digite a sigla de um estado brasileiro:");
+            estado = Console.ReadLine().ToUpper();
+            int posicao = Array.IndexOf(estadosBrasileiros, estado);
+            if (posicao >= 0)
+            {
+                WriteLine($"O estado {estadosBrasileirosNomes[posicao]} é representado pela sigla {estado}.");
+            }
+            else
+            {
+                WriteLine("Estado não encontrado.");
+            }
+        }
+        else if (opc == "2")
+        {
+            WriteLine("Digite o nome de um estado brasileiro:");
+            op2 = Console.ReadLine();
+            int posicao = Array.IndexOf(estadosBrasileirosNomes, op2);
+            if (posicao >= 0)
+            {
+                WriteLine($"A sigla do estado {op2} é {estadosBrasileiros[posicao]}.");
+            }
+            else
+            {
+                WriteLine("Estado não encontrado.");
+            }
+        }
+        else
+        {
+            WriteLine("Opção inválida. Por favor, escolha 1 ou 2.");
+        }
+        WriteLine("Deseja realizar outra consulta? (S/N)");
+        op1 = Console.ReadLine().ToUpper();
+    } while (op1 == "S");
+}
+
+Extenso();
+static void Extenso()
+{
+    string[] unidade = { "zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze", "quatorze", "quinze", "desesseis", "dezesete", "dezoito", "dezenove" };
+    string[] dezena = { "", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa" };//até noventa
+    string[] centena = { "", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos" };//até novecentos
+    string extenso = "";
+    string input;
+    int n;
+    int ne = 0;
+    int nc = 0;
+    int nd = 0;
+
+    BackgroundColor = ConsoleColor.Gray;
+    ForegroundColor = ConsoleColor.Black;
+    do
+    {
+        Clear();
+        Write("Informe um número (0-1000): ");
+        n = int.Parse(Console.ReadLine());
+        if (n < 0 || n > 1000)
+        {
+            WriteLine("*** Número fora da faixa ***");
+        }
+        else if (n < 20)
+        {
+            extenso = unidade[n];
+        }
+        else if (n < 100) //20-99
+        {
+            ne = n / 10;
+            nd = n % 10;
+            extenso = dezena[ne];
+            if (nd > 0)
+            {
+                extenso += " e " + unidade[nd];
+            }
+
+        }
+
+        else if (n == 100)
+        {
+            extenso = "cem";
+        }
+        else if (n < 1000)//101 - 999
+        {
+            nc = n / 100;
+            int resto = n % 100;
+            extenso = centena[nc];
+
+            if (resto > 0)
+            {
+                if (resto < 20)
+                {
+                    extenso += " e " + unidade[resto];
+                }
+                else
+                {
+                    ne = resto / 10;
+                    nd = resto % 10;
+                    extenso += " e " + dezena[ne];
+                    if (nd > 0)
+                    {
+                        extenso += " e " + unidade[nd];
+                    }
+                }
+            }
+        }
+        else if (n == 1000)
+        {
+            extenso = "mil";
+        }
+        Clear();
+        Thread.Sleep(500);
+        SetCursorPosition(0, 0);
+        WriteLine($"\n{extenso}");
+        Thread.Sleep(500);
+        WriteLine("Deseja continuar? Sim/Nao");
+        input = Console.ReadLine();
+
+
+    } while (input.ToLower() != "nao");
+}
+
+Jogo();
+static void Jogo()
+{
+    Clear();
+    do
+    {
+        Clear();
+        Random random = new Random();
+        int numeroSecreto = 0;
+        int tentativasRestantes = 0;
+        List<int> tentativas = new List<int>();
+
+        Console.WriteLine("Escolha o nível de dificuldade:");
+        Console.WriteLine("1 - Fácil (1 a 10, chances ilimitadas)");
+        Console.WriteLine("2 - Médio (1 a 50, 15 chances)");
+        Console.WriteLine("3 - Difícil (1 a 100, 10 chances)");
+        int nivel = int.Parse(Console.ReadLine());
+
+        switch (nivel)
+        {
+            case 1:
+                numeroSecreto = random.Next(1, 11); // Números de 1 a 10
+                break;
+            case 2:
+                numeroSecreto = random.Next(1, 51); // Números de 1 a 50
+                tentativasRestantes = 15;
+                break;
+            case 3:
+                numeroSecreto = random.Next(1, 101); // Números de 1 a 100
+                tentativasRestantes = 10;
+                break;
+            default:
+                Console.WriteLine("Nível inválido.");
+                return;
+        }
+
+        int tentativasFeitas = 0;
+        bool acertou = false;
+
+        while (!acertou)
+        {
+            if (nivel != 1 && tentativasRestantes == 0)
+            {
+                Console.WriteLine("Você não tem mais tentativas. O número era: " + numeroSecreto);
+                break;
+            }
+
+            Console.WriteLine("Digite seu palpite:");
+            int palpite = int.Parse(Console.ReadLine());
+            tentativas.Add(palpite);
+            tentativasFeitas++;
+
+            if (palpite == numeroSecreto)
+            {
+                Console.WriteLine($"Parabéns! Você acertou o número {numeroSecreto} em {tentativasFeitas} tentativas.");
+                acertou = true;
+            }
+            else if (palpite < numeroSecreto)
+            {
+                Console.WriteLine("O número é maior que o seu palpite.");
+            }
+            else
+            {
+                Console.WriteLine("O número é menor que o seu palpite.");
+            }
+
+            if (nivel != 1)
+            {
+                tentativasRestantes--;
+                Console.WriteLine($"Tentativas restantes: {tentativasRestantes}");
+            }
+        }
+
+        if (tentativasFeitas > 0)
+        {
+            Console.WriteLine("Tentativas feitas: " + string.Join(", ", tentativas));
+        }
+        WriteLine("Deseja jogar novamente? (sim/não)");
+    } while (Console.ReadLine()?.ToLower() == "sim");
+}
+
+SorteiaNomes();
+static void SorteiaNomes()
+{
+    int n, ns;
+    string resp;
+    Random genarum = new Random();
+
+    do
+    {
+        Clear();
+        Write("Quantos nomes para o sorteio? ");
+        n = int.Parse(ReadLine()!);
+
+        string[] nome = new string[n];
+        string[] sorteado = new string[n];
+
+        // Carregando os nomes
+        for (int i = 0; i < nome.Length; i++)
+        {
+            Write($"Informe o {i + 1}° nome: ");
+            nome[i] = ReadLine()!;
+        }
+
+        // Sorteando os nomes
+        for (int i = 0; i < nome.Length; i++)
+        {
+            ns = genarum.Next(0, nome.Length - i);
+            sorteado[i] = nome[ns];
+            nome[ns] = nome[nome.Length - 1 - i];
+        }
+
+        // Mostrando todos os nomes sorteados
+        WriteLine("\n\nNOMES SORTEADOS:\n");
+        for (int i = 0; i < sorteado.Length; i++)
+        {
+            WriteLine($"{i + 1}° sorteado: {sorteado[i]}");
+            Thread.Sleep(300);
+        }
+
+        // Mostrando as duplas formadas
+        WriteLine("\n\nDUPLAS FORMADAS:\n");
+        for (int i = 0; i < sorteado.Length; i += 2)
+        {
+            if (i + 1 < sorteado.Length)
+            {
+                WriteLine($"→ Dupla {(i / 2) + 1}: {sorteado[i]} & {sorteado[i + 1]}");
+            }
+            else
+            {
+                WriteLine($"→ {sorteado[i]} (ficou sem par)");
+            }
+            Thread.Sleep(500);
+        }
+
+        Write("\n\nDeseja continuar [S/N]? ");
+        resp = ReadLine()!.ToLower();
+
+    } while (resp == "s" || resp == "sim");
+
+}
+
+//Enzo Stevanin
+
